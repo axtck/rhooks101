@@ -9,22 +9,21 @@ interface AppProps { };
 const App: FunctionComponent<AppProps> = () => {
 
   return (
-    <div>
+    <React.Fragment>
       <Topbar />
-
       <div className="container">
-        <div className="row">
-          <div className="col-2">
+        <div className="row justify-content-between">
+          <div className="col-3">
             <div className="position-fixed">
               <SidebarLeft />
             </div>
           </div>
-          <div className="col-10">
+          <div className="col-7">
             <Content />
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
