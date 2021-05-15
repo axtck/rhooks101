@@ -8,7 +8,7 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
     const history = useHistory();
 
     // routes and labels
-    const routes: RouteLink[] = [
+    const routes: IRouteLink[] = [
         {
             route: "/home",
             label: "Home",

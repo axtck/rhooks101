@@ -9,7 +9,7 @@ const SidebarLeft: FunctionComponent<SidebarLeftProps> = () => {
     const history = useHistory();
 
     // routes and labels
-    const routes: RouteLink[] = Constants.pageRoutes.map((route) => {
+    const routes: IRouteLink[] = Constants.pageRoutes.map((route) => {
         return {
             route: `/hooks/${route}`,
             label: `${route}()`,
