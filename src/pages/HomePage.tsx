@@ -6,7 +6,7 @@ const HomePage: FunctionComponent<HomeProps> = () => {
 
     return (
         <div>
-            <h1>Welcome</h1>
+            <h4>welcome</h4>
         </div>
     );
 };
