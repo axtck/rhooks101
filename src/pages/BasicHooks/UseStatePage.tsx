@@ -63,9 +63,7 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
 
     return (
         <React.Fragment>
-            <div className="row">
-                <h3>useState()</h3>
-            </div>
+            <h3>useState()</h3>
             <h5 className="mt-3">What does calling useState do?</h5>
             <p>
                 It declares a “state variable”. Our variable is called count but we could call it anything else,
@@ -84,9 +82,7 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
             <p>
                 It returns a pair of values: the current state and a function that updates it.
             </p>
-            <div className="row mt-3">
-                <h5>Syntax</h5>
-            </div>
+            <h5 className="mt-5">Syntax</h5>
             <p>const [state, setState] = useState(initialState);</p>
             <div className="row mt-3">
                 <h5>Usage</h5>
