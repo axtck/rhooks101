@@ -1,7 +1,9 @@
 import { Button } from "@material-ui/core";
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useState } from "react";
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import ButtonGroupStacked from "../../components/Buttons/ButtonGroupStacked";
 import TextInputForm from "../../components/Forms/TextInputForm";
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 interface UseStatePageProps { };
 
@@ -25,8 +27,8 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
     const handleCounterActionClick = (e: MouseEvent<HTMLButtonElement>, action: string): void => {
         e.preventDefault();
         if (action !== "+" && action !== "-") return;
-        if (action === "+") return setCounter(counter + 1);
-        if (action === "-") return setCounter(counter - 1);
+        if (action === "+") setCounter(counter + 1);
+        if (action === "-") setCounter(counter - 1);
     };
 
     const handleToggleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -60,6 +62,9 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
 
     const textDisplay = displayText ? <h3>Some text</h3> : null;
 
+    const highlightStyles = {
+        "border-radius": "5px"
+    }
 
     return (
         <React.Fragment>
@@ -83,12 +88,35 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
                 It returns a pair of values: the current state and a function that updates it.
             </p>
             <h5 className="mt-5">Syntax</h5>
-            <p>const [state, setState] = useState(initialState);</p>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={highlightStyles}>
+                const [state, setState] = useState(initialState);
+            </SyntaxHighlighter>
             <div className="row mt-3">
                 <h5>Usage</h5>
             </div>
-            <p>setState(newState);</p>
-            <div className="row mt-4">
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={highlightStyles}>
+                setState(newState);
+            </SyntaxHighlighter>
+            <h5 className="mt-5">Some examples</h5>
+            <h6 className="mt-4">Counter</h6>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={highlightStyles}>
+                {`const [counter, setCounter] = useState(0); // set 0 as initial value\n
+const handleCounterActionClick = (e, action) => {
+    e.preventDefault(); // prevent the default action
+    if (action === "+") setCounter(counter + 1); // add / subtract according to action param
+    if (action === "-") setCounter(counter - 1);
+};`}
+            </SyntaxHighlighter>
+            <div className="row">
                 <div className="col-4">
                     <ButtonGroupStacked btnDefs={btnDefs} onBtnClick={handleCounterActionClick} />
                 </div>
@@ -96,7 +124,18 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
                     <h5>{counter}</h5>
                 </div>
             </div>
-            <div className="row mt-4">
+            <h6 className="mt-4">Toggle display</h6>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={highlightStyles}>
+                {`const [displayText, setDisplayText] = useState(false); // set false as initial value\n
+const handleToggleClick = (e) => {
+    e.preventDefault();
+    setDisplayText(!displayText); // toggle false / true
+};`}
+            </SyntaxHighlighter>
+            <div className="row">
                 <div className="col-4">
                     <Button
                         variant="outlined"
@@ -109,7 +148,21 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
                     {textDisplay}
                 </div>
             </div>
-            <div className="row mt-4">
+            <h6 className="mt-4">Update multiple inputs</h6>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={highlightStyles}>
+                {`const [inputValues, setInputValues] = useState({name: "", age: 0}); // set initial values
+const handleInputChange = (e) => {
+    e.preventDefault();
+    setInputValues({
+        ...inputValues,
+        [e.target.name]: e.target.value // use name as key and value as value
+    });
+};`}
+            </SyntaxHighlighter>
+            <div className="row mb-5">
                 <div className="col-4">
                     <TextInputForm onInputChange={handleInputChange} />
                 </div>
