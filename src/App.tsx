@@ -13,12 +13,12 @@ const App: FunctionComponent<AppProps> = () => {
       <Topbar />
       <div className="container">
         <div className="row justify-content-between">
-          <div className="col-3">
+          <div className="col-12 col-md-2">
             <div className="position-fixed">
               <SidebarLeft />
             </div>
           </div>
-          <div className="col-7">
+          <div className="col-10">
             <Content />
           </div>
         </div>

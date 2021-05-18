@@ -63,7 +63,7 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
     const textDisplay = displayText ? <h3>Some text</h3> : null;
 
     const highlightStyles = {
-        "border-radius": "5px"
+        "borderRadius": "5px"
     }
 
     return (

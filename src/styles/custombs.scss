@@ -1,0 +1,14 @@
+// import custom variables
+@import "./variables";
+
+// required imports
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$custom-colors: (
+    "neat": $neat,
+);
+
+// merge maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
