@@ -1,9 +1,9 @@
-// bootstrap customization
-@import "./custombs";
-@import "~bootstrap/scss/bootstrap";
-
 // font
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Newsreader:wght@200;300;500&display=swap");
 
 // styles
 @import "./styles";
+
+// bootstrap customization
+@import "./custombs";
+@import "~bootstrap/scss/bootstrap";

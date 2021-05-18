@@ -3,7 +3,6 @@ import SidebarLeft from "./components/Layout/SidebarLeft";
 import Topbar from "./components/Layout/Topbar";
 import Content from "./routes/MainRoutes";
 
-
 interface AppProps { };
 
 const App: FunctionComponent<AppProps> = () => {
@@ -19,7 +18,9 @@ const App: FunctionComponent<AppProps> = () => {
             </div>
           </div>
           <div className="col-10">
-            <Content />
+            <div className="container">
+              <Content />
+            </div>
           </div>
         </div>
       </div>

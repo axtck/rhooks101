@@ -11,4 +11,8 @@ export abstract class Constants {
         "useLayoutEffect",
         "useDebugValue"
     ];
+
+    static readonly highlightStyles = {
+        "borderRadius": "5px"
+    }
 }
