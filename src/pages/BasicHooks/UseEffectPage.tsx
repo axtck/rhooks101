@@ -12,7 +12,7 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
                 language="javascript"
                 style={dracula}
                 customStyle={Constants.highlightStyles}>
-                bqfdf
+                const [state, setState] = useState(initialState);
             </SyntaxHighlighter>
         </React.Fragment>
     );

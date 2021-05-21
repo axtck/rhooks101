@@ -51,7 +51,12 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
     const handleLinkToUseRef = (e: MouseEvent<HTMLSpanElement>) => {
         e.preventDefault();
         history.push("/hooks/useRef");
-    }
+    };
+
+    const handleLinkToUseMemo = (e: MouseEvent<HTMLSpanElement>) => {
+        e.preventDefault();
+        history.push("/hooks/useMemo");
+    };
 
 
     /**********
@@ -91,8 +96,8 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
                 You should not use state if you are just storing data and not using it for rendering or passing it as props to
                 other components. Whenever the state value changes, React will re-render the component and also all its child
                 components will get re-rendered. It is important to avoid unnecessary rerenders.
-                If you want to store data but don’t want to re-render the app, then you can use the
-                <span className="link-success" onClick={handleLinkToUseRef}>useRef</span> hook provided by React.
+                If you want to store data but don’t want to re-render the app, then you can use
+                the <span className="link-success" onClick={handleLinkToUseRef}>useRef</span> hook provided by React.
             </p>
             <h5 className="mt-5">Syntax</h5>
             <SyntaxHighlighter
@@ -140,7 +145,7 @@ const handleToggleClick = (e) => {
                 language="javascript"
                 style={dracula}
                 customStyle={Constants.highlightStyles}>
-                {`const [inputValues, setInputValues] = useState({name: "", age: 0}); // set initial values
+                {`const [inputValues, setInputValues] = useState({name: "", age: 0}); // set initial values\n
 const handleInputChange = (e) => {
     e.preventDefault();
     setInputValues({
@@ -184,7 +189,29 @@ const handleCounterActionClick = (e, action) => {
                 </div>
             </div>
             <p className="mt-3">
-                The ”+” and ”-” buttons use the functional form, because the updated value is based on the previous value.
+                The ”ADD” and ”SUBTRACT” buttons use the functional form, because the updated value is based on the previous value.
+            </p>
+            <h5 className="mt-3">Lazy initial state</h5>
+            <p>
+                The initialState argument is the state used during the initial render. In subsequent renders, it is disregarded.
+                If the initial state is the result of an expensive computation, you may provide a function instead, which will
+                be executed only on the initial render
+            </p>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`const [state, setState] = useState(() => {
+  const initialState = someExpensiveComputation(props);
+  return initialState;
+});`}
+            </SyntaxHighlighter>
+            <h5 className="mt-3">Bailing out of a state update</h5>
+            <p className="mt-3 mb-5">
+                If you update a State Hook to the same value as the current state, React will bail out without rendering the children or firing effects.
+                (React uses the Object.is comparison algorithm.) Note that React may still need to render that specific component again before bailing out.
+                That shouldn’t be a concern because React won’t unnecessarily go “deeper” into the tree. If you’re doing expensive calculations while rendering,
+                you can optimize them with <span className="link-success" onClick={handleLinkToUseMemo}>useMemo</span>
             </p>
         </React.Fragment>
     );
