@@ -99,16 +99,14 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
                 If you want to store data but don’t want to re-render the app, then you can use
                 the <span className="link-success" onClick={handleLinkToUseRef}>useRef</span> hook provided by React.
             </p>
-            <h5 className="mt-5">Syntax</h5>
+            <h5 className="mt-4">Syntax</h5>
             <SyntaxHighlighter
                 language="javascript"
                 style={dracula}
                 customStyle={Constants.highlightStyles}>
                 const [state, setState] = useState(initialState);
             </SyntaxHighlighter>
-            <div className="row mt-3">
-                <h5>Usage</h5>
-            </div>
+            <h5 className="mt-4">Usage</h5>
             <SyntaxHighlighter
                 language="javascript"
                 style={dracula}
@@ -116,7 +114,7 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
                 setState(newState);
             </SyntaxHighlighter>
             <h5 className="mt-5">Some examples</h5>
-            <h6 className="mt-4">Toggle display</h6>
+            <h6 className="mt-3">Toggle display</h6>
             <SyntaxHighlighter
                 language="javascript"
                 style={dracula}
@@ -140,7 +138,7 @@ const handleToggleClick = (e) => {
                     {textDisplay}
                 </div>
             </div>
-            <h6 className="mt-4">Update multiple inputs</h6>
+            <h6 className="mt-3">Update multiple inputs</h6>
             <SyntaxHighlighter
                 language="javascript"
                 style={dracula}
