@@ -8,8 +8,23 @@
 
 // set custom colors
 $custom-colors: (
-    "neat": $neat,
+  "neat": $neat,
 );
 
 // merge maps
 $theme-colors: map-merge($theme-colors, $custom-colors);
+
+// for spacing ($spacer = 1rem)
+$spacers: (
+  6: $spacer * 5,
+);
+
+// set custom positions
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    .position#{$infix}-fixed {
+      position: fixed !important;
+    }
+  }
+}

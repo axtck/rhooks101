@@ -10,14 +10,14 @@ const App: FunctionComponent<AppProps> = () => {
   return (
     <React.Fragment>
       <Topbar />
-      <div className="container">
+      <div className="container mt-6">
         <div className="row justify-content-between">
           <div className="col-12 col-md-2">
-            <div className="position-fixed">
+            <div className="position-md-fixed">
               <SidebarLeft />
             </div>
           </div>
-          <div className="col-10">
+          <div className="col-12 col-md-10">
             <div className="container">
               <Content />
             </div>

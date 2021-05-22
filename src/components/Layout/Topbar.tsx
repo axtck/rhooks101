@@ -35,7 +35,7 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
     });
 
     return (
-        <nav className="navbar navbar-expand-sm sticky-top navbar-dark bg-primary mb-3">
+        <nav className="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
             <div className="container">
                 <a className="navbar-brand" href="/home">React Hooks 101</a>
                 <ul className="navbar-nav">
