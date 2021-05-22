@@ -1,9 +1,13 @@
-import React, { FunctionComponent, MouseEvent, useEffect, useState } from "react";
+import React, { FunctionComponent, SyntheticEvent, MouseEvent, useEffect, useState } from "react";
+import axios from "axios";
 import { useHistory } from "react-router";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import ErrorAlert from "../../components/Alerts/ErrorAlert";
 import ButtonGroupStacked from "../../components/Buttons/ButtonGroupStacked";
 import { Constants } from "../../constants";
+import PersonCard from "../../components/Cards/PersonCard";
+import LoadingScreen from "../../screens/LoadingScreen";
 
 interface UseEffectPageProps { };
 
@@ -11,11 +15,21 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
     const [counter, setCounter] = useState(0);
     const [counterUpdates, setCounterUpdates] = useState(0);
 
+    const [randomUser, setRandomUser] = useState<IRandomPerson | null>(null);
+    const [openAlert, setOpenAlert] = useState<boolean>(false);
+
     const history = useHistory();
 
     useEffect(() => {
         setCounterUpdates(prevState => prevState + 1);
     }, [counter]);
+
+    useEffect(() => {
+        axios
+            .get<IRandomPerson>("https://randomuser.me/api/")
+            .then((res) => setRandomUser(res.data))
+            .catch(() => setOpenAlert(true));
+    }, []);
 
 
     const handleCounterActionClick = (e: MouseEvent<HTMLButtonElement>, action: string): void => {
@@ -30,6 +44,14 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
         history.push("/hooks/useLayoutEffect");
     };
 
+    const handleAlertClose = (event?: SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenAlert(false);
+    };
+
     const btnDefs: IActionBtnDef[] = [
         {
             label: "ADD",
@@ -40,6 +62,10 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
             action: "-"
         }
     ];
+
+    if (randomUser == null) {
+        return <LoadingScreen />;
+    }
 
     return (
         <React.Fragment>
@@ -125,6 +151,16 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
                 language="javascript"
                 style={dracula}
                 customStyle={Constants.highlightStyles}>
+                {`useEffect(() => {
+    const subscription = props.source.subscribe();
+}, [props.source]);`}
+            </SyntaxHighlighter>
+            <h5 className="mt-5">Some examples</h5>
+            <h6 className="mt-3">Count state variable updates</h6>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
                 {`const [counter, setCounter] = useState(0);
 const [counterUpdates, setCounterUpdates] = useState(0);
 
@@ -140,9 +176,7 @@ useEffect(() => {
     setCounterUpdates(prevState => prevState + 1); // + 1 everytime the counter state variable is updated
 }, [counter]); // pass counter in dependency array`}
             </SyntaxHighlighter>
-
-            <h5 className="mt-5">Some examples</h5>
-            <div className="row mt-5">
+            <div className="row mt-3">
                 <div className="col-4">
                     <h5>Total counter updates</h5>
                 </div>
@@ -158,6 +192,23 @@ useEffect(() => {
                     <h5>{counter}</h5>
                 </div>
             </div>
+            <h6 className="mt-5">Fetch data from API on mount</h6>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`useEffect(() => {
+    axios // use axios to do a GET request
+        .get("https://randomuser.me/api/") // specify api url 
+        .then((res) => setRandomUser(res.data)) // set state to res.data
+        .catch(() => setOpenAlert(true)); // if fails, open popup
+}, []);`}
+            </SyntaxHighlighter>
+            <div className="row mt-3 justify-content-center text-center">
+                <PersonCard person={randomUser} />
+                <small><em>This person was fetched on mount (sorry for poor image quality)</em></small>
+            </div>
+            <ErrorAlert onClose={handleAlertClose} openAlert={openAlert} />
         </React.Fragment>
     );
 };
