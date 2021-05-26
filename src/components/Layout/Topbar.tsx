@@ -16,7 +16,7 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
         }
     ];
 
-    const handleLinkClick = (e: MouseEvent<HTMLButtonElement>, route: string) => {
+    const handleLinkClick = (e: MouseEvent<HTMLSpanElement>, route: string) => {
         e.preventDefault();
         history.push(route);
     };
@@ -32,11 +32,12 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
 
     const navLis = routes.map((r, i) => {
         return <li key={i} className="nav-item">
-            <button
-                className="btn nav-link text-white shadow-none"
+            <span
+                className="text-white"
+                role="button"
                 onClick={(e) => handleLinkClick(e, r.route)}>
                 {r.label}
-            </button>
+            </span>
         </li>;
     });
 
@@ -45,7 +46,8 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
             <div className="container">
                 <h3
                     className="navbar-brand my-2 text-react"
-                    onClick={handleTitleClick}>
+                    onClick={handleTitleClick}
+                    role="button">
                     React Hooks 101 <CachedIcon style={{ color: "white" }} />
                 </h3>
                 <ul className="navbar-nav">
