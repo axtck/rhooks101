@@ -1,4 +1,4 @@
-import React, { FunctionComponent, SyntheticEvent, MouseEvent, useEffect, useState } from "react";
+import React, { FunctionComponent, SyntheticEvent, MouseEvent as ReactMouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
@@ -9,6 +9,7 @@ import { Constants } from "../../constants";
 import PersonCard from "../../components/Cards/PersonCard";
 import LoadingScreen from "../../screens/LoadingScreen";
 
+
 interface UseEffectPageProps { };
 
 const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
@@ -18,11 +19,27 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
     const [randomUser, setRandomUser] = useState<IRandomPerson | null>(null);
     const [openAlert, setOpenAlert] = useState<boolean>(false);
 
+    const [mousePosition, setMousePosition] = useState<MouseEvent>();
+
     const history = useHistory();
 
     useEffect(() => {
         setCounterUpdates(prevState => prevState + 1);
     }, [counter]);
+
+
+    useEffect(() => {
+        const onMouseMove = (e: MouseEvent) => {
+            e.preventDefault();
+            setMousePosition(e);
+        };
+
+        window.addEventListener("mousemove", onMouseMove);
+
+        return () => {
+            window.removeEventListener("mousemove", onMouseMove);
+        };
+    }, [mousePosition]);
 
     useEffect(() => {
         axios
@@ -32,14 +49,14 @@ const UseEffectPage: FunctionComponent<UseEffectPageProps> = () => {
     }, []);
 
 
-    const handleCounterActionClick = (e: MouseEvent<HTMLButtonElement>, action: string): void => {
+    const handleCounterActionClick = (e: ReactMouseEvent<HTMLButtonElement>, action: string): void => {
         e.preventDefault();
         if (action !== "+" && action !== "-") return;
         if (action === "+") setCounter(prevState => prevState + 1);
         if (action === "-") setCounter(prevState => prevState - 1);
     };
 
-    const handleLinkToUseLayoutEffect = (e: MouseEvent<HTMLSpanElement>) => {
+    const handleLinkToUseLayoutEffect = (e: ReactMouseEvent<HTMLSpanElement>) => {
         e.preventDefault();
         history.push("/hooks/useLayoutEffect");
     };
@@ -208,6 +225,29 @@ useEffect(() => {
                 <PersonCard person={randomUser} />
                 <small><em>This person was fetched on mount (sorry for poor image quality)</em></small>
             </div>
+            <h6 className="mt-5">Mouse position</h6>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`const [mousePosition, setMousePosition] = useState();
+useEffect(() => {
+    // handler for mouse move event
+    const onMouseMove = (e) => {
+        e.preventDefault();
+        setMousePosition(e); // set state 
+    };
+
+    // add eventlistener on mount
+    window.addEventListener("mousemove", onMouseMove);
+
+    return () => {
+        // remove eventlistener in cleanup
+        window.removeEventListener("mousemove", onMouseMove);
+    };
+}, [mousePosition]);`}
+            </SyntaxHighlighter>
+            <p>X: {mousePosition?.clientX} Y: {mousePosition?.clientY}</p>
             <ErrorAlert onClose={handleAlertClose} openAlert={openAlert} />
         </React.Fragment>
     );

@@ -9,21 +9,17 @@
 // set custom colors
 $custom-colors: (
   "neat": $neat,
+  "react": $react,
+);
+
+// for spacing ($spacer = 1rem)
+$custom-spacers: (
+  6: $spacer * 5.5,
 );
 
 // merge maps
 $theme-colors: map-merge($theme-colors, $custom-colors);
-
-// for spacing ($spacer = 1rem)
-$spacers: (
-  0: 0,
-  1: $spacer / 4,
-  2: $spacer / 2,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
-  6: $spacer * 5,
-);
+$spacers: map-merge($spacers, $custom-spacers);
 
 // set custom positions
 @each $breakpoint in map-keys($grid-breakpoints) {

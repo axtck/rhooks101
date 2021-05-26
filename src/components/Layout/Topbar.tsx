@@ -1,5 +1,6 @@
 import React, { FunctionComponent, MouseEvent } from "react";
 import { useHistory } from "react-router";
+import CachedIcon from '@material-ui/icons/Cached';
 
 interface TopbarProps { };
 
@@ -20,6 +21,11 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
         history.push(route);
     };
 
+    const handleTitleClick = (e: MouseEvent) => {
+        e.preventDefault();
+        history.push("/home");
+    };
+
     /**********
      * Render
     ***********/
@@ -27,7 +33,7 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
     const navLis = routes.map((r, i) => {
         return <li key={i} className="nav-item">
             <button
-                className="btn nav-link text-white"
+                className="btn nav-link text-white shadow-none"
                 onClick={(e) => handleLinkClick(e, r.route)}>
                 {r.label}
             </button>
@@ -35,9 +41,13 @@ const Topbar: FunctionComponent<TopbarProps> = () => {
     });
 
     return (
-        <nav className="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
+        <nav className="navbar navbar-expand-sm fixed-top navbar-dark bg-dark">
             <div className="container">
-                <a className="navbar-brand" href="/home">React Hooks 101</a>
+                <h3
+                    className="navbar-brand my-2 text-react"
+                    onClick={handleTitleClick}>
+                    React Hooks 101 <CachedIcon style={{ color: "white" }} />
+                </h3>
                 <ul className="navbar-nav">
                     {navLis}
                 </ul>
