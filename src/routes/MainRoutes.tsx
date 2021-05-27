@@ -7,6 +7,7 @@ import UseLayoutEffectPage from "../pages/AdditionalHooks/UseLayoutEffectPage";
 import UseMemoPage from "../pages/AdditionalHooks/UseMemoPage";
 import UseReducerPage from "../pages/AdditionalHooks/UseReducerPage";
 import UseRefPage from "../pages/AdditionalHooks/UseRefPage";
+import ContextPage from "../pages/BasicHooks/ContextPage";
 import UseContextPage from "../pages/BasicHooks/UseContextPage";
 import UseEffectPage from "../pages/BasicHooks/UseEffectPage";
 import UseStatePage from "../pages/BasicHooks/UseStatePage";
@@ -30,6 +31,7 @@ const MainRoutes: FunctionComponent<MainRoutesProps> = () => (
 
         {/* other routes */}
         <Route path="/home" component={HomePage} />
+        <Route path="/context" component={ContextPage} />
 
         {/* redirects */}
         <Redirect to="/home" />
