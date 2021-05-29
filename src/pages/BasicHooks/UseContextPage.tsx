@@ -1,17 +1,27 @@
-import React, { createContext, FunctionComponent } from "react";
-import { Route } from "react-router";
-import { Link } from "react-router-dom";
+import React, { FunctionComponent, MouseEvent, useState } from "react";
+import { Route, useHistory, useRouteMatch } from "react-router";
+import { Switch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Constants } from "../../constants";
 import { AuthorContext } from "../../context";
-import ContextPage from "./ContextPage";
+import FirstContextContainer from "../../containers/Context/FirstContextContainer";
+import SecondContextContainer from "../../containers/Context/SecondContextContainer";
+import { Button } from "@material-ui/core";
 
 interface UseContextPageProps { };
 
 const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
 
+    // const [authorMessage, setAuthorMessage] = useState<string>(""); 
 
+    const { path, url } = useRouteMatch();
+    const history = useHistory();
+
+    const handleClickContent = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        history.push(`${url}/${e.currentTarget.id}`);
+    };
 
     return (
         <React.Fragment>
@@ -39,12 +49,27 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                 Note: passing undefined as a Provider value does not cause consuming components to use defaultValue.
             </p>
             <p>You can choose to create your context in a separate file and export so it is accessible.</p>
-            <Link to="/context">context</Link>
-            <Link to="/hooks/useContext">useContext</Link>
-            <AuthorContext.Provider value={null}>
-                <Route path="/hooks/useContext" component={ContextPage} />
-                <Route path="/context" component={ContextPage} />
-            </AuthorContext.Provider>
+            <div className="border border-dark p-3 bg-soft text-center">
+                <small><em>Imagine if this was a page that renders 2 different contents based on route</em></small>
+                <div className="row mb-3 mt-2">
+                    <div className="col">
+                        <Button variant="contained" color="primary" id="first" onClick={handleClickContent}>
+                            first content
+                        </Button>
+                    </div>
+                    <div className="col">
+                        <Button variant="contained" color="primary" id="second" onClick={handleClickContent}>
+                            second content
+                        </Button>
+                    </div>
+                </div>
+                <AuthorContext.Provider value={"hello"}>
+                    <Switch>
+                        <Route path={`${path}/first`} component={FirstContextContainer} />
+                        <Route path={`${path}/second`} component={SecondContextContainer} />
+                    </Switch>
+                </AuthorContext.Provider>
+            </div>
             <SyntaxHighlighter
                 language="javascript"
                 style={dracula}

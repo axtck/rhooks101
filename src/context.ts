@@ -1,3 +1,3 @@
 import { createContext } from 'react';
 
-export const AuthorContext = createContext(null);
+export const AuthorContext = createContext("");
