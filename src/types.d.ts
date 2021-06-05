@@ -35,3 +35,17 @@ interface IRandomPerson {
         }
     ];
 }
+
+interface IStateStringDef {
+    messageStateVal: string;
+    setMessageStateVal: React.Dispatch<React.SetStateAction<string>>;
+    hexStateVal: string;
+    setHexStateVal: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface ITextFieldProps {
+    name: string;
+    label: string;
+    value: string;
+    onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}

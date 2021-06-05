@@ -1,32 +1,29 @@
 import { TextField } from "@material-ui/core";
-import React, { ChangeEvent, FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 interface TextInputFormProps {
-    onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    fields: ITextFieldProps[];
 };
 
-const TextInputForm: FunctionComponent<TextInputFormProps> = ({ onInputChange }) => {
-
-    return (
-        <form autoComplete="off">
-            <TextField
-                margin="normal"
-                size="small"
-                name="name"
-                label="Name"
-                variant="outlined"
-                onChange={onInputChange}
-            />
-            <TextField
-                margin="normal"
-                size="small"
-                name="age"
-                label="Age"
-                variant="outlined"
-                onChange={onInputChange}
-            />
-        </form>
-    );
-};
+const TextInputForm: FunctionComponent<TextInputFormProps> = ({ fields }) => (
+    <form autoComplete="off">
+        {
+            fields.map((f, i) => {
+                return (
+                    <TextField
+                        key={i}
+                        value={f.value}
+                        name={f.name}
+                        label={f.label}
+                        margin="normal"
+                        size="small"
+                        variant="outlined"
+                        onChange={f.onInputChange}
+                    />
+                );
+            })
+        }
+    </form>
+);
 
 export default TextInputForm;

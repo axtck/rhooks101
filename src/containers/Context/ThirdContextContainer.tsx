@@ -1,16 +1,22 @@
-import React, { ChangeEvent, FunctionComponent, useContext } from "react";
+import { Button } from "@material-ui/core";
+import React, { ChangeEvent, FunctionComponent, MouseEvent, useContext } from "react";
 import TextInputForm from "../../components/Forms/TextInputForm";
 import { AuthorContext } from "../../contexts";
+import { generateHexColor } from "../../utils/functions";
 
-interface SecondContextContainerProps { };
+interface ThirdContextContainerProps { };
 
-const SecondContextContainer: FunctionComponent<SecondContextContainerProps> = () => {
-
+const ThirdContextContainer: FunctionComponent<ThirdContextContainerProps> = () => {
     const authorContext = useContext(AuthorContext);
 
     const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         authorContext?.setMessageStateVal(e.target.value);
+    };
+
+    const handleBackGroundColorClick = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        authorContext.setHexStateVal(generateHexColor());
     };
 
     const textFields: ITextFieldProps[] = [
@@ -24,12 +30,14 @@ const SecondContextContainer: FunctionComponent<SecondContextContainerProps> = (
 
     return (
         <React.Fragment>
-            <h4>This is the second context content</h4>
+            <h4>This is the third context content</h4>
             <p>Share a message with the other pages!</p>
             <TextInputForm fields={textFields} />
-            <h5 className="mt-2">Current background color is {authorContext.hexStateVal}</h5>
+            <Button variant="contained" color="primary" id="third" onClick={handleBackGroundColorClick}>
+                generate rgb
+            </Button>
         </React.Fragment>
     );
 };
 
-export default SecondContextContainer;
+export default ThirdContextContainer;

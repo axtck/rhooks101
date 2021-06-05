@@ -13,18 +13,7 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
 
     const [counter, setCounter] = useState(0);
     const [displayText, setDisplayText] = useState(false);
-
-    interface IInputValues {
-        name: string;
-        age: number;
-    }
-
-    const initialInputValues: IInputValues = {
-        name: "",
-        age: 0
-    };
-
-    const [inputValues, setInputValues] = useState<IInputValues>(initialInputValues);
+    const [inputValues, setInputValues] = useState({ name: "", age: "" });
 
     const history = useHistory();
 
@@ -47,6 +36,21 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
             [e.target.name]: e.target.value
         });
     };
+
+    const textFields: ITextFieldProps[] = [
+        {
+            name: "name",
+            label: "Name",
+            value: inputValues.name,
+            onInputChange: handleInputChange
+        },
+        {
+            name: "age",
+            label: "Age",
+            value: inputValues.age,
+            onInputChange: handleInputChange
+        }
+    ];
 
     const handleLinkToUseRef = (e: MouseEvent<HTMLSpanElement>) => {
         e.preventDefault();
@@ -154,7 +158,7 @@ const handleInputChange = (e) => {
             </SyntaxHighlighter>
             <div className="row">
                 <div className="col-4">
-                    <TextInputForm onInputChange={handleInputChange} />
+                    <TextInputForm fields={textFields} />
                 </div>
                 <div className="col-8 text-center">
                     <p>{inputValues.name} {inputValues.age}</p>

@@ -4,16 +4,18 @@ import { Switch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Constants } from "../../constants";
-import { AuthorContext } from "../../context";
+import { AuthorContext } from "../../contexts";
 import FirstContextContainer from "../../containers/Context/FirstContextContainer";
 import SecondContextContainer from "../../containers/Context/SecondContextContainer";
 import { Button } from "@material-ui/core";
+import ThirdContextContainer from "../../containers/Context/ThirdContextContainer";
 
 interface UseContextPageProps { };
 
 const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
 
-    // const [authorMessage, setAuthorMessage] = useState<string>(""); 
+    const [message, setMessage] = useState<string>("");
+    const [hex, setHex] = useState<string>("");
 
     const { path, url } = useRouteMatch();
     const history = useHistory();
@@ -22,6 +24,8 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
         e.preventDefault();
         history.push(`${url}/${e.currentTarget.id}`);
     };
+
+    console.log(hex);
 
     return (
         <React.Fragment>
@@ -49,8 +53,8 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                 Note: passing undefined as a Provider value does not cause consuming components to use defaultValue.
             </p>
             <p>You can choose to create your context in a separate file and export so it is accessible.</p>
-            <div className="border border-dark p-3 bg-soft text-center">
-                <small><em>Imagine if this was a page that renders 2 different contents based on route</em></small>
+            <div className="border border-dark p-3 text-center mb-3 rounded" style={{ backgroundColor: hex }}>
+                <small><em>Imagine if this was a page that renders 3 different contents based on route</em></small>
                 <div className="row mb-3 mt-2">
                     <div className="col">
                         <Button variant="contained" color="primary" id="first" onClick={handleClickContent}>
@@ -62,11 +66,20 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                             second content
                         </Button>
                     </div>
+                    <div className="col">
+                        <Button variant="contained" color="primary" id="third" onClick={handleClickContent}>
+                            third content
+                        </Button>
+                    </div>
                 </div>
-                <AuthorContext.Provider value={"hello"}>
+                <AuthorContext.Provider value={{
+                    messageStateVal: message, setMessageStateVal: setMessage,
+                    hexStateVal: hex, setHexStateVal: setHex
+                }}>
                     <Switch>
                         <Route path={`${path}/first`} component={FirstContextContainer} />
                         <Route path={`${path}/second`} component={SecondContextContainer} />
+                        <Route path={`${path}/third`} component={ThirdContextContainer} />
                     </Switch>
                 </AuthorContext.Provider>
             </div>
@@ -77,7 +90,6 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                 {`import { createContext } from 'react';
 export const AuthorContext = createContext(null);`}
             </SyntaxHighlighter>
-
         </React.Fragment>
     );
 };
