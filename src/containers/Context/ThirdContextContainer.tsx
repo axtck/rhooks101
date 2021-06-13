@@ -1,29 +1,29 @@
 import { Button } from "@material-ui/core";
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useContext } from "react";
 import TextInputForm from "../../components/Forms/TextInputForm";
-import { AuthorContext } from "../../contexts";
+import { ExampleContext } from "../../contexts";
 import { generateHexColor } from "../../utils/functions";
 
 interface ThirdContextContainerProps { };
 
 const ThirdContextContainer: FunctionComponent<ThirdContextContainerProps> = () => {
-    const authorContext = useContext(AuthorContext);
+    const exampleContext = useContext(ExampleContext);
 
     const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        authorContext?.setMessageStateVal(e.target.value);
+        exampleContext?.setMessageStateVal(e.target.value);
     };
 
     const handleBackGroundColorClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        authorContext.setHexStateVal(generateHexColor());
+        exampleContext.setHexStateVal(generateHexColor());
     };
 
     const textFields: ITextFieldProps[] = [
         {
             name: "message",
             label: "Message",
-            value: authorContext?.messageStateVal || "",
+            value: exampleContext?.messageStateVal || "",
             onInputChange: handleMessageChange
         }
     ];

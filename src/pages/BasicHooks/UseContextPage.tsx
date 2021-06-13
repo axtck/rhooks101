@@ -4,7 +4,7 @@ import { Switch } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Constants } from "../../constants";
-import { AuthorContext } from "../../contexts";
+import { ExampleContext } from "../../contexts";
 import FirstContextContainer from "../../containers/Context/FirstContextContainer";
 import SecondContextContainer from "../../containers/Context/SecondContextContainer";
 import { Button } from "@material-ui/core";
@@ -24,8 +24,6 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
         e.preventDefault();
         history.push(`${url}/${e.currentTarget.id}`);
     };
-
-    console.log(hex);
 
     return (
         <React.Fragment>
@@ -52,7 +50,53 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                 The defaultValue argument (null) is only used when a component does not have a matching Provider above it in the tree. This default value can be helpful for testing components in isolation without wrapping them.
                 Note: passing undefined as a Provider value does not cause consuming components to use defaultValue.
             </p>
-            <p>You can choose to create your context in a separate file and export so it is accessible.</p>
+            <p>It is a good idea to create the context in a separate file and export it.</p>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`import { createContext } from 'react';
+export const ExampleContext = createContext(null); // initial value`}
+            </SyntaxHighlighter>
+            <h5 className="mt-3">Context Provider</h5>
+            <p>Provide the context to the child components, in this case the children are routes inside a React Router switch.</p>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`const [message, setMessage] = useState(""); // state values for message and background color
+const [hex, setHex] = useState("");
+
+// provide the context and pass values
+<ExampleContext.Provider value={{ message, setMessage, hex, setHex }}>
+    <Switch>
+        <Route path={\`${path}/first\`} component={FirstContextContainer} />
+        <Route path={\`${path}/second\`} component={SecondContextContainer} />
+        <Route path={\`${path}/third\`} component={ThirdContextContainer} />
+    </Switch>
+</ExampleContext.Provider>`}
+            </SyntaxHighlighter>
+            <h5 className="mt-3">useContext()</h5>
+            <p>Call the useContext hook and specify which context to use. Now, the values provided by the provider are accessible and can be updated from each component.</p>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`const exampleContext = useContext(ExampleContext); // call useContext for the ExampleContext
+
+// example on how the shared state can be updated
+const handleMessageChange = (e) => {
+    e.preventDefault();
+    exampleContext?.setMessageStateVal(e.target.value);
+};
+
+// use and update the contexts values 
+<React.Fragment>
+    <h4>This is the first context content</h4>
+    {exampleContext?.message}
+</React.Fragment>`}
+            </SyntaxHighlighter>
+            <h5 className="mt-3">Result</h5>
             <div className="border border-dark p-3 text-center mb-3 rounded" style={{ backgroundColor: hex }}>
                 <small><em>Imagine if this was a page that renders 3 different contents based on route</em></small>
                 <div className="row mb-3 mt-2">
@@ -72,7 +116,7 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                         </Button>
                     </div>
                 </div>
-                <AuthorContext.Provider value={{
+                <ExampleContext.Provider value={{
                     messageStateVal: message, setMessageStateVal: setMessage,
                     hexStateVal: hex, setHexStateVal: setHex
                 }}>
@@ -81,15 +125,8 @@ const UseContextPage: FunctionComponent<UseContextPageProps> = () => {
                         <Route path={`${path}/second`} component={SecondContextContainer} />
                         <Route path={`${path}/third`} component={ThirdContextContainer} />
                     </Switch>
-                </AuthorContext.Provider>
+                </ExampleContext.Provider>
             </div>
-            <SyntaxHighlighter
-                language="javascript"
-                style={dracula}
-                customStyle={Constants.highlightStyles}>
-                {`import { createContext } from 'react';
-export const AuthorContext = createContext(null);`}
-            </SyntaxHighlighter>
         </React.Fragment>
     );
 };

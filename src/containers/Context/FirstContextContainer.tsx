@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useContext } from "react";
-import { AuthorContext } from "../../contexts";
+import { ExampleContext } from "../../contexts";
 
 interface FirstContextContainerProps { };
 
 const FirstContextContainer: FunctionComponent<FirstContextContainerProps> = () => {
 
-    const authorContext = useContext(AuthorContext);
+    const exampleContext = useContext(ExampleContext);
 
     return (
         <React.Fragment>
             <h4>This is the first context content</h4>
-            {authorContext?.messageStateVal}
+            {exampleContext?.messageStateVal}
         </React.Fragment>
     );
 };

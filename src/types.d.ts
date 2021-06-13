@@ -36,7 +36,7 @@ interface IRandomPerson {
     ];
 }
 
-interface IStateStringDef {
+interface IExampleContextDef {
     messageStateVal: string;
     setMessageStateVal: React.Dispatch<React.SetStateAction<string>>;
     hexStateVal: string;

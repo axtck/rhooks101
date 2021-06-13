@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-export const AuthorContext = createContext<IStateStringDef>({
+export const ExampleContext = createContext<IExampleContextDef>({
     messageStateVal: "", setMessageStateVal: () => { },
     hexStateVal: "", setHexStateVal: () => { }
 });
