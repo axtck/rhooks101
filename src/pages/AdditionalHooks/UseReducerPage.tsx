@@ -1,11 +1,13 @@
-import React, { FunctionComponent, MouseEvent, useReducer } from "react";
+import { Button } from "@material-ui/core";
+import React, { ChangeEvent, FunctionComponent, MouseEvent, useReducer, useState } from "react";
 import { useHistory } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import ButtonGroupStacked from "../../components/Buttons/ButtonGroupStacked";
+import TextInputForm from "../../components/Forms/TextInputForm";
 import { Constants } from "../../constants";
 
-enum ActionType {
+enum ECounterActionType {
     Increase = "INCREASE",
     Decrease = "DECREASE"
 }
@@ -19,17 +21,17 @@ const initialCounterState: ICounterState = {
 };
 
 interface ICounterAction {
-    type: ActionType,
+    type: ECounterActionType,
     payload: number;
 }
 
-const increaseAction: ICounterAction = {
-    type: ActionType.Increase,
+const increaseCounterAction: ICounterAction = {
+    type: ECounterActionType.Increase,
     payload: 1
 };
 
-const decreaseAction: ICounterAction = {
-    type: ActionType.Decrease,
+const decreaseCounterAction: ICounterAction = {
+    type: ECounterActionType.Decrease,
     payload: 1
 };
 
@@ -37,12 +39,12 @@ const counterReducer = (state: ICounterState, action: ICounterAction): ICounterS
     const { type, payload } = action;
 
     switch (type) {
-        case ActionType.Increase:
+        case ECounterActionType.Increase:
             return {
                 ...state,
                 value: state.value + payload
             };
-        case ActionType.Decrease:
+        case ECounterActionType.Decrease:
             return {
                 ...state,
                 value: state.value - payload
@@ -52,12 +54,60 @@ const counterReducer = (state: ICounterState, action: ICounterAction): ICounterS
     }
 };
 
+enum ETodosActionType {
+    Add = "ADD",
+    Remove = "REMOVE"
+}
+
+interface ITodosState {
+    todos: ITodoItem[];
+}
+
+// const initialTodoItem: ITodoItem = {
+//     completed: false, 
+//     todo: "Do dishes"
+// };
+
+const initialTodosState: ITodosState = {
+    todos: []
+};
+
+interface ITodosAction {
+    type: ETodosActionType;
+    payload: string;
+}
+
+
+
+const removeTodoAction: ITodosAction = {
+    type: ETodosActionType.Remove,
+    payload: "qsdfqsdfqdsf"
+};
+
+const todoReducer = (state: ITodosState, action: ITodosAction): ITodosState => {
+
+    const { type, payload } = action;
+
+    switch (type) {
+        case ETodosActionType.Add:
+            return {
+                todos: [...state.todos, { todo: payload, completed: false }]
+            };
+        default:
+            return state;
+    }
+
+};
 
 interface UseReducerPageProps { };
 
 const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
 
-    const [counter, dispatch] = useReducer(counterReducer, initialCounterState);
+    const [counter, counterDispatch] = useReducer(counterReducer, initialCounterState);
+
+    const [todos, todosDispatch] = useReducer(todoReducer, initialTodosState);
+
+    const [todoText, setTodoText] = useState<string>("");
 
     const history = useHistory();
 
@@ -68,8 +118,25 @@ const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
     const handleCounterActionClick = (e: MouseEvent<HTMLButtonElement>, action: string) => {
         e.preventDefault();
         if (action !== "+" && action !== "-") return;
-        if (action === "+") dispatch(increaseAction);
-        if (action === "-") dispatch(decreaseAction);
+        if (action === "+") counterDispatch(increaseCounterAction);
+        if (action === "-") counterDispatch(decreaseCounterAction);
+    };
+
+    const handleTodoInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setTodoText(e.target.value);
+    };
+
+    const handleAddTodoClick = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        const addTodoAction: ITodosAction = {
+            type: ETodosActionType.Add,
+            payload: todoText
+        };
+
+        todosDispatch(addTodoAction);
+        setTodoText("");
     };
 
     const btnDefs: IActionBtnDef[] = [
@@ -81,6 +148,15 @@ const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
             label: "decrease",
             action: "-"
         }
+    ];
+
+    const textFields: ITextFieldDef[] = [
+        {
+            name: "todo",
+            label: "Todo",
+            value: todoText,
+            onInputChange: handleTodoInputChange
+        },
     ];
 
     return (
@@ -148,7 +224,20 @@ const Counter = () => {
                     <h5>{counter.value}</h5>
                 </div>
             </div>
-
+            <div className="row mt-5">
+                <div className="col-4">
+                    <TextInputForm fields={textFields} />
+                </div>
+                <div className="col-2 mt-3">
+                    <Button variant="contained" color="primary" onClick={handleAddTodoClick}>
+                        add todo
+                    </Button>
+                </div>
+                <div className="col-6 mt-3 text-center">
+                    <p>{todoText}</p>
+                </div>
+            </div>
+            <div><p>{JSON.stringify(todos, null, 2)}</p></div>
             <h4 className="mt-4">Extra</h4>
             <h5 className="mt-3">Lazy initialization</h5>
             <p>

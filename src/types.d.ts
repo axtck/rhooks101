@@ -43,9 +43,14 @@ interface IExampleContextDef {
     setHexStateVal: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface ITextFieldProps {
+interface ITextFieldDef {
     name: string;
     label: string;
     value: string;
     onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface ITodoItem {
+    todo: string;
+    completed: boolean;
 }

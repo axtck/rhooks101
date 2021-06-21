@@ -2,7 +2,7 @@ import { TextField } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 
 interface TextInputFormProps {
-    fields: ITextFieldProps[];
+    fields: ITextFieldDef[];
 };
 
 const TextInputForm: FunctionComponent<TextInputFormProps> = ({ fields }) => (

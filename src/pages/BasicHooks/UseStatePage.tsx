@@ -37,21 +37,6 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
         });
     };
 
-    const textFields: ITextFieldProps[] = [
-        {
-            name: "name",
-            label: "Name",
-            value: inputValues.name,
-            onInputChange: handleInputChange
-        },
-        {
-            name: "age",
-            label: "Age",
-            value: inputValues.age,
-            onInputChange: handleInputChange
-        }
-    ];
-
     const handleLinkToUseRef = (e: MouseEvent<HTMLSpanElement>) => {
         e.preventDefault();
         history.push("/hooks/useRef");
@@ -61,7 +46,6 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
         e.preventDefault();
         history.push("/hooks/useMemo");
     };
-
 
     /**********
      * Render
@@ -75,6 +59,21 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
         {
             label: "decrease",
             action: "-"
+        }
+    ];
+
+    const textFields: ITextFieldDef[] = [
+        {
+            name: "name",
+            label: "Name",
+            value: inputValues.name,
+            onInputChange: handleInputChange
+        },
+        {
+            name: "age",
+            label: "Age",
+            value: inputValues.age,
+            onInputChange: handleInputChange
         }
     ];
 

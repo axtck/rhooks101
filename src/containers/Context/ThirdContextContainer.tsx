@@ -19,7 +19,7 @@ const ThirdContextContainer: FunctionComponent<ThirdContextContainerProps> = () 
         exampleContext.setHexStateVal(generateHexColor());
     };
 
-    const textFields: ITextFieldProps[] = [
+    const textFields: ITextFieldDef[] = [
         {
             name: "message",
             label: "Message",

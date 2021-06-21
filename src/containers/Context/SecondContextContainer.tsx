@@ -13,7 +13,7 @@ const SecondContextContainer: FunctionComponent<SecondContextContainerProps> = (
         exampleContext?.setMessageStateVal(e.target.value);
     };
 
-    const textFields: ITextFieldProps[] = [
+    const textFields: ITextFieldDef[] = [
         {
             name: "message",
             label: "Message",
