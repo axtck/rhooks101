@@ -69,11 +69,11 @@ const UseStatePage: FunctionComponent<UseStatePageProps> = () => {
 
     const btnDefs: IActionBtnDef[] = [
         {
-            label: "ADD",
+            label: "increase",
             action: "+"
         },
         {
-            label: "SUBTRACT",
+            label: "decrease",
             action: "-"
         }
     ];
