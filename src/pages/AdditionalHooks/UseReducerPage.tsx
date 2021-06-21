@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import ButtonGroupStacked from "../../components/Buttons/ButtonGroupStacked";
+import TodoCard from "../../components/Cards/TodoCard";
 import TextInputForm from "../../components/Forms/TextInputForm";
 import { Constants } from "../../constants";
 
@@ -76,8 +77,6 @@ interface ITodosAction {
     type: ETodosActionType;
     payload: string;
 }
-
-
 
 const removeTodoAction: ITodosAction = {
     type: ETodosActionType.Remove,
@@ -159,6 +158,12 @@ const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
         },
     ];
 
+    const todoDisplay = todos.todos.map((t, i) => {
+        return (
+            <TodoCard todo={t} key={i} />
+        );
+    });
+
     return (
         <React.Fragment>
             <h3>useReducer()</h3>
@@ -237,7 +242,7 @@ const Counter = () => {
                     <p>{todoText}</p>
                 </div>
             </div>
-            <div><p>{JSON.stringify(todos, null, 2)}</p></div>
+            {todoDisplay}
             <h4 className="mt-4">Extra</h4>
             <h5 className="mt-3">Lazy initialization</h5>
             <p>
