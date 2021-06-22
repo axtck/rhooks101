@@ -26,15 +26,24 @@ interface ICounterAction {
     payload: number;
 }
 
-const increaseCounterAction: ICounterAction = {
-    type: ECounterActionType.Increase,
-    payload: 1
+enum ETodosActionType {
+    Add = "ADD",
+    Remove = "REMOVE",
+    Toggle = "TOGGLE"
+}
+
+interface ITodosState {
+    todos: ITodoItem[];
+}
+
+const initialTodosState: ITodosState = {
+    todos: []
 };
 
-const decreaseCounterAction: ICounterAction = {
-    type: ECounterActionType.Decrease,
-    payload: 1
-};
+interface ITodosAction {
+    type: ETodosActionType;
+    payload: string | number;
+}
 
 const counterReducer = (state: ICounterState, action: ICounterAction): ICounterState => {
     const { type, payload } = action;
@@ -55,34 +64,6 @@ const counterReducer = (state: ICounterState, action: ICounterAction): ICounterS
     }
 };
 
-enum ETodosActionType {
-    Add = "ADD",
-    Remove = "REMOVE"
-}
-
-interface ITodosState {
-    todos: ITodoItem[];
-}
-
-// const initialTodoItem: ITodoItem = {
-//     completed: false, 
-//     todo: "Do dishes"
-// };
-
-const initialTodosState: ITodosState = {
-    todos: []
-};
-
-interface ITodosAction {
-    type: ETodosActionType;
-    payload: string;
-}
-
-const removeTodoAction: ITodosAction = {
-    type: ETodosActionType.Remove,
-    payload: "qsdfqsdfqdsf"
-};
-
 const todoReducer = (state: ITodosState, action: ITodosAction): ITodosState => {
 
     const { type, payload } = action;
@@ -90,12 +71,24 @@ const todoReducer = (state: ITodosState, action: ITodosAction): ITodosState => {
     switch (type) {
         case ETodosActionType.Add:
             return {
-                todos: [...state.todos, { todo: payload, completed: false }]
+                todos: [...state.todos, { todo: payload.toString(), completed: false }]
+            };
+        case ETodosActionType.Toggle:
+            return {
+                todos: state.todos.map((t, i) => {
+                    return i === payload ? { ...t, completed: !t.completed } : t;
+                })
+            };
+        case ETodosActionType.Remove:
+            const updatedTodos = [...state.todos];
+            const index = Number(payload);
+            updatedTodos.splice(index, 1);
+            return {
+                todos: updatedTodos
             };
         default:
             return state;
     }
-
 };
 
 interface UseReducerPageProps { };
@@ -103,7 +96,6 @@ interface UseReducerPageProps { };
 const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
 
     const [counter, counterDispatch] = useReducer(counterReducer, initialCounterState);
-
     const [todos, todosDispatch] = useReducer(todoReducer, initialTodosState);
 
     const [todoText, setTodoText] = useState<string>("");
@@ -116,9 +108,19 @@ const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
 
     const handleCounterActionClick = (e: MouseEvent<HTMLButtonElement>, action: string) => {
         e.preventDefault();
-        if (action !== "+" && action !== "-") return;
-        if (action === "+") counterDispatch(increaseCounterAction);
-        if (action === "-") counterDispatch(decreaseCounterAction);
+
+        const increaseCounterAction: ICounterAction = {
+            type: ECounterActionType.Increase,
+            payload: 1
+        };
+
+        const decreaseCounterAction: ICounterAction = {
+            type: ECounterActionType.Decrease,
+            payload: 1
+        };
+
+        if (action === ECounterActionType.Increase) counterDispatch(increaseCounterAction);
+        if (action === ECounterActionType.Decrease) counterDispatch(decreaseCounterAction);
     };
 
     const handleTodoInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -138,14 +140,35 @@ const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
         setTodoText("");
     };
 
+    const handleCompletedToggle = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+        const toggleTodoAction: ITodosAction = {
+            type: ETodosActionType.Toggle,
+            payload: index
+        };
+
+        todosDispatch(toggleTodoAction);
+    };
+
+    const handleRemoveTodoClick = (e: MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+
+        const removeTodoAction: ITodosAction = {
+            type: ETodosActionType.Remove,
+            payload: index
+        };
+
+        todosDispatch(removeTodoAction);
+    };
+
+
     const btnDefs: IActionBtnDef[] = [
         {
             label: "increase",
-            action: "+"
+            action: ECounterActionType.Increase
         },
         {
             label: "decrease",
-            action: "-"
+            action: ECounterActionType.Decrease
         }
     ];
 
@@ -160,7 +183,13 @@ const UseReducerPage: FunctionComponent<UseReducerPageProps> = () => {
 
     const todoDisplay = todos.todos.map((t, i) => {
         return (
-            <TodoCard todo={t} key={i} />
+            <div className="mt-2 mb-3" key={i}>
+                <TodoCard
+                    todo={t}
+                    onRemoveTodoClick={(e) => handleRemoveTodoClick(e, i)}
+                    onCompletedToggle={(e) => handleCompletedToggle(e, i)}
+                />
+            </div>
         );
     });
 
