@@ -22,13 +22,15 @@ const TodoCard: FunctionComponent<TodoCardProps> = ({ todo, onRemoveTodoClick, o
     const { root, pos } = useStyles();
     const { todo: todoItem, completed } = todo;
 
+    const todoItemDisplay = completed ? <del>{todoItem}</del> : todoItem;
+
     return (
         <Card className={root} variant="outlined">
             <CardContent>
                 <div className="row">
                     <div className="col-8 mt-2">
                         <Typography className={pos} color="textSecondary">
-                            {todoItem}
+                            {todoItemDisplay}
                         </Typography>
                     </div>
                     <div className="col-4 text-center">
@@ -48,7 +50,6 @@ const TodoCard: FunctionComponent<TodoCardProps> = ({ todo, onRemoveTodoClick, o
             </CardActions>
         </Card>
     );
-
 };
 
 export default TodoCard;

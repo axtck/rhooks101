@@ -194,18 +194,18 @@ useEffect(() => {
 }, [counter]); // pass counter in dependency array`}
             </SyntaxHighlighter>
             <div className="row mt-3">
-                <div className="col-4">
+                <div className="col">
                     <h5>Total counter updates</h5>
                 </div>
-                <div className="col-8 text-center">
+                <div className="col text-center mt-2">
                     <h5>{counterUpdates}</h5>
                 </div>
             </div>
             <div className="row">
-                <div className="col-4">
+                <div className="col">
                     <ButtonGroupStacked btnDefs={btnDefs} onBtnClick={handleCounterActionClick} />
                 </div>
-                <div className="col-8 text-center">
+                <div className="col text-center mt-2">
                     <h5>{counter}</h5>
                 </div>
             </div>

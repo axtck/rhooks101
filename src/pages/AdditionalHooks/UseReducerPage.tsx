@@ -250,25 +250,54 @@ const Counter = () => {
     );
 };`}
             </SyntaxHighlighter>
-            <div className="row">
-                <div className="col-4">
+            <div className="row mt-3">
+                <div className="col">
                     <ButtonGroupStacked btnDefs={btnDefs} onBtnClick={handleCounterActionClick} />
                 </div>
-                <div className="col-8 text-center">
+                <div className="col text-center mt-2">
                     <h5>{counter.value}</h5>
                 </div>
             </div>
-            <div className="row mt-5">
-                <div className="col-4">
+            <p className="mt-3">A more practical example for creating todo's.</p>
+            <SyntaxHighlighter
+                language="javascript"
+                style={dracula}
+                customStyle={Constants.highlightStyles}>
+                {`const todoReducer = (state, action) => {
+
+    const { type, payload } = action;
+
+    switch (type) {
+        case "ADD":
+            return {
+                todos: [...state.todos, { todo: payload, completed: false }]
+            };
+        case "TOGGLE":
+            return {
+                todos: state.todos.map((t, i) => {
+                    return i === payload ? { ...t, completed: !t.completed } : t;
+                })
+            };
+        case "REMOVE":
+            const updatedTodos = [...state.todos];
+            const index = parseInt(payload, 10);
+            updatedTodos.splice(index, 1);
+            return {
+                todos: updatedTodos
+            };
+        default:
+            return state;
+    }
+};`}
+            </SyntaxHighlighter>
+            <div className="row mt-3">
+                <div className="col">
                     <TextInputForm fields={textFields} />
                 </div>
-                <div className="col-2 mt-3">
+                <div className="col text-center mt-2">
                     <Button variant="contained" color="primary" onClick={handleAddTodoClick}>
                         add todo
                     </Button>
-                </div>
-                <div className="col-6 mt-3 text-center">
-                    <p>{todoText}</p>
                 </div>
             </div>
             {todoDisplay}

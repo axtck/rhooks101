@@ -129,7 +129,7 @@ const handleToggleClick = (e) => {
 };`}
             </SyntaxHighlighter>
             <div className="row">
-                <div className="col-4">
+                <div className="col">
                     <Button
                         variant="outlined"
                         color="primary"
@@ -137,7 +137,7 @@ const handleToggleClick = (e) => {
                         TOGGLE
                     </Button>
                 </div>
-                <div className="col-8 text-center">
+                <div className="col text-center mt-2">
                     {textDisplay}
                 </div>
             </div>
@@ -156,10 +156,10 @@ const handleInputChange = (e) => {
 };`}
             </SyntaxHighlighter>
             <div className="row">
-                <div className="col-4">
+                <div className="col">
                     <TextInputForm fields={textFields} />
                 </div>
-                <div className="col-8 text-center">
+                <div className="col text-center mt-2">
                     <p>{inputValues.name} {inputValues.age}</p>
                 </div>
             </div>
@@ -182,10 +182,10 @@ const handleCounterActionClick = (e, action) => {
 };`}
             </SyntaxHighlighter>
             <div className="row">
-                <div className="col-4">
+                <div className="col">
                     <ButtonGroupStacked btnDefs={btnDefs} onBtnClick={handleCounterActionClick} />
                 </div>
-                <div className="col-8 text-center">
+                <div className="col text-center mt-2">
                     <h5>{counter}</h5>
                 </div>
             </div>

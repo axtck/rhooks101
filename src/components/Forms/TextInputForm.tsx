@@ -6,7 +6,7 @@ interface TextInputFormProps {
 };
 
 const TextInputForm: FunctionComponent<TextInputFormProps> = ({ fields }) => (
-    <form autoComplete="off">
+    <form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
         {
             fields.map((f, i) => {
                 return (
